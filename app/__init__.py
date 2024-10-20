@@ -30,6 +30,6 @@ def create_app(test_config=None):
     current_session = session.Session()
     app.route('/responses', methods=['GET'])(current_session.get_all_user_responses)
     app.route('/metadata', methods=['GET'])(current_session.get_form_metadata)
-    app.route('/add_responses', methods=['GET'](current_session.add_responses_to_db))
+    app.route('/add_responses', methods=['GET'])(current_session.add_responses_to_db)
     
     return app

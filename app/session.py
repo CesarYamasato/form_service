@@ -14,8 +14,8 @@ class Session:
                     "1YckdpZN_ETO8XUm_Z_IGOWglMvEl9T7J5AdP3zqgbB8") #não é muito clara, apenas chama da "recurso" e não deixa claro se lida com refresh tokens
     
         with open('db_credentials.json') as db_credentials_file:
-            db_credentials = json.loads(db_credentials_file)
-        self.__db_conn = db_auth.connect_to_db('POSGRADUACAO', 'localhost', '5432', db_credentials) #Objeto de conexão com o bd
+            db_credentials = json.load(db_credentials_file)
+        self.__db_conn = db_conn.DbConnection('POSGRADUACAO', 'localhost', '5432', db_credentials) #Objeto de conexão com o bd
     
     def add_responses_to_db(self):
         responses = self.__form_conn.get_all_user_responses()["respostas"]

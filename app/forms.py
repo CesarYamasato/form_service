@@ -29,15 +29,27 @@ class FormService:
         for response in result['responses']:
             response_dict = dict()
             response_dict['id_resposta'] = response['responseId']
-            response_dict['data'] = response['create_time']
+            response_dict['data'] = response['createTime']
             response_dict['numero_usp'] = response['answers']['4e03a758']['textAnswers']['answers'][0]['value']
             response_dict["prazo_exame_qualificacao"] = response['answers']['623f8b49']['textAnswers']['answers'][0]['value']
-            response_dict["prazo_deposito_dissertacao"] = response['answers']['08aca08c']['textAnswers']['answers'][0]['value']
-            response_dict["atividades_academicas"] = response['answers']['0e72728d']['textAnswers']['answers'][0]['value'] 
+            if response['answers'].get('08aca08c'): #essa é uma pergunta não obrigatória
+                response_dict["prazo_deposito_dissertacao"] = response['answers']['08aca08c']['textAnswers']['answers'][0]['value']
+            else:
+                response_dict["prazo_deposito_dissertacao"] = None
+            
+            if response['answers'].get('0e72728d'): #essa é uma pergunta não obrigatória
+                response_dict["atividades_academicas"] = response['answers']['0e72728d']['textAnswers']['answers'][0]['value'] 
+            else:
+                response_dict["atividades_academicas"] = None
+
             response_dict["resumo_atividades"] = response['answers']['3b4fa32c']['textAnswers']['answers'][0]['value'] 
             response_dict["observacoes"] = response['answers']['3e10bae9']['textAnswers']['answers'][0]['value'] 
-            response_dict["dificuldades"] = response['answers']['4b67a211']['textAnswers']['answers'][0]['value'] 
-            json_response['Respostas'].append(response_dict)
+
+            if response['answers'].get('4b67a211'): #essa é uma pergunta não obrigatória
+                response_dict["dificuldades"] = response['answers']['4b67a211']['textAnswers']['answers'][0]['value'] 
+            else:
+                response_dict["dificuldades"] = None
+            json_response['respostas'].append(response_dict)
         
         return json_response
 
