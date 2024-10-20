@@ -26,9 +26,10 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    from . import forms
-    form_service = forms.FormService("credentials.json", "1YckdpZN_ETO8XUm_Z_IGOWglMvEl9T7J5AdP3zqgbB8")
-    app.route('/responses', methods=['GET'])(form_service.get_all_user_responses)
-    app.route('/metadata', methods=['GET'])(form_service.get_form_metadata)
+    from . import session
+    current_session = session.Session()
+    app.route('/responses', methods=['GET'])(current_session.get_all_user_responses)
+    app.route('/metadata', methods=['GET'])(current_session.get_form_metadata)
+    app.route('/add_responses', methods=['GET'](current_session.add_responses_to_db))
     
     return app
