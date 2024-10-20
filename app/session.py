@@ -17,11 +17,12 @@ class Session:
             db_credentials = json.load(db_credentials_file)
         self.__db_conn = db_conn.DbConnection('POSGRADUACAO', 'localhost', '5432', db_credentials) #Objeto de conexão com o bd
     
+    #TODO: CHANGE RETURN AND DO EXCEPTION TRATMENT
     def add_responses_to_db(self):
         responses = self.__form_conn.get_all_user_responses()["respostas"]
         for response in responses:
             self.__db_conn.insert_response(response)
-        return
+        return "Insertions done"
 
     def get_all_user_responses(self):
         return self.__form_conn.get_all_user_responses()
