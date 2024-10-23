@@ -26,14 +26,17 @@ class DbConnection:
 
     #TODO: EXCEPTION TRATMENT
     def insert_response(self, response_json):
-        self.__cursor.execute(
-            """INSERT INTO RELATORIO_ALUNO (NUMERO_USP, ID_RELATORIO, DATA_ENVIO, PRAZO_EXAME_QUALIFICACAO, PRAZO_ENTREGA_DISSERTACAO, ATIVIDADES_ACADEMICAS, RESUMO_ATIVIDADES, OBSERVACOES, DIFICULDADE_ORIENTADOR) VALUES 
-                (%s,%s,%s,%s,%s,%s,%s,%s, %s);""", (response_json["numero_usp"], response_json["id_resposta"], response_json['data'], response_json['prazo_exame_qualificacao'], response_json['prazo_deposito_dissertacao'],
-                response_json['atividades_academicas'], response_json['resumo_atividades'], response_json['observacoes'], response_json['dificuldades']))
+        try:
+            self.__cursor.execute(
+                """INSERT INTO RELATORIO_ALUNO (NUMERO_USP, ID_RELATORIO, DATA_ENVIO, PRAZO_EXAME_QUALIFICACAO, PRAZO_ENTREGA_DISSERTACAO, ATIVIDADES_ACADEMICAS, RESUMO_ATIVIDADES, OBSERVACOES, DIFICULDADE_ORIENTADOR) VALUES 
+                    (%s,%s,%s,%s,%s,%s,%s,%s, %s);""", (response_json["numero_usp"], response_json["id_resposta"], response_json['data'], response_json['prazo_exame_qualificacao'], response_json['prazo_deposito_dissertacao'],
+                    response_json['atividades_academicas'], response_json['resumo_atividades'], response_json['observacoes'], response_json['dificuldades']))
 
-        self.__db_conn.commit()
-
-        return "Insertion Done"
+            self.__db_conn.commit()
+            return "Insertion Done"
+        except Exception as e:
+            print("Não foi possível adicionar a resposta ao banco de dados")
+            return str(e)
 
     def end_conn(self):
         self.__db_conn.close()

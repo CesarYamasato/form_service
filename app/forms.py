@@ -24,8 +24,6 @@ class FormService:
         if result.get('responses') is None:
             return json_response
         
-        print(result)
-
         for response in result['responses']:
             response_dict = dict()
             response_dict['id_resposta'] = response['responseId']

@@ -8,7 +8,7 @@ import psycopg2
 
 class Session:
     #TODO: adicionar configurações de teste
-    def __init__(self):
+    def __init__(self, router):
                                                                             
         self.__form_conn = forms.FormService("credentials.json",    #Objeto que será usado para a comunicação com a api de forms da google, a documentação
                     "1YckdpZN_ETO8XUm_Z_IGOWglMvEl9T7J5AdP3zqgbB8") #não é muito clara, apenas chama da "recurso" e não deixa claro se lida com refresh tokens
@@ -16,6 +16,7 @@ class Session:
         with open('db_credentials.json') as db_credentials_file:
             db_credentials = json.load(db_credentials_file)
         self.__db_conn = db_conn.DbConnection('POSGRADUACAO', 'localhost', '5432', db_credentials) #Objeto de conexão com o bd
+        router('/add_responses', methods=['GET'])(self.add_responses_to_db)
     
     #TODO: CHANGE RETURN AND DO EXCEPTION TRATMENT
     def add_responses_to_db(self):
